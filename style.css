@@ -1,0 +1,10 @@
+.parent div {
+    float: left;
+}
+
+#parentDiv {
+    border: 2px solid lightblue;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
