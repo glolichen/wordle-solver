@@ -5,19 +5,20 @@
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body onload="init()">
-		<div id="parentDiv">
-			<div class="parent">
+		<div id="grandparentDiv">
+			<div id="parentDiv" class="parent">
 				<div id="tableContainer">
 					<table id="table"></table>
 				</div>
-				<div id="buttonContainer">
-					<button id="noneButton">None</button>
-					<br>
-					<button id="greenButton">Green</button>
-					<br>
-					<button id="yellowButton">Yellow</button>
-					<br>
-					<button id="temp">a button</button>
+				<div id="parentButtonContainer">
+					<div id="childButtonContainer">
+						<p>(Scroll down for instructions)</p>
+						<button class="colorButton" id="noneButton">None</button>
+						<button class="colorButton" id="greenButton">Green</button>
+						<button class="colorButton" id="yellowButton">Yellow</button>
+						<hr>
+						<button class="colorButton" id="makingComplete">Marking Complete</button>
+					</div>
 				</div>
 			</div>
 		</div>
