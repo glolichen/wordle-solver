@@ -1,14 +1,6 @@
 var selectorColor = 0; // 0 = none, 1 = green, 2 = yellow
 
 const table = document.getElementById("table");
-const greenButton = document.getElementById("greenButton");
-const yellowButton = document.getElementById("yellowButton");
-const tempButton = document.getElementById("temp");
-
-const tableContainer = document.getElementById("tableContainer");
-const buttonContainer = document.getElementById("buttonContainer");
-
-const parentDiv = document.getElementsByClassName("parent")[0];
 
 const none = "#e9e9ed";
 const green = "#99cc00";
@@ -29,6 +21,7 @@ var index = []; // how common every letter is
 var letterData = []; // where each letter can be
 
 function init() {
+	document.getElementById("grandparentDiv").style.height = `${document.body.clientHeight}px`;
 	size = document.body.clientWidth / 17;
 	for (let i = 0; i < 6; i++) {
 		let row = [];
@@ -84,16 +77,13 @@ function draw() {
 		table.append(row);
 	}
 
-	buttonContainer.setAttribute("style", `width: ${table.offsetWidth / 2}px; height: ${table.offsetHeight}px; top: 100px;`);
+	document.getElementById("parentButtonContainer").setAttribute("style", `width: ${table.offsetWidth / 1.5}px; height: ${table.offsetHeight}px; top: 100px;`);
 
-	// parentDiv.style.width =  `${table.offsetWidth * 2}px`;
-	// parentDiv.style.height = `${table.offsetHeight}px`;
-
-	noneButton.onclick = () => selectorColor = 0;
-	greenButton.onclick = () => selectorColor = 1;
-	yellowButton.onclick = () => selectorColor = 2;
-	tempButton.onclick = () => {
-		setText("HELLO");
+	document.getElementById("noneButton").onclick = () => selectorColor = 0;
+	document.getElementById("greenButton").onclick = () => selectorColor = 1;
+	document.getElementById("yellowButton").onclick = () => selectorColor = 2;
+	document.getElementById("makingComplete").onclick = () => {
+		currentRow++;
 	};
 }
 
