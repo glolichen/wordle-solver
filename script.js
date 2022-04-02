@@ -8,7 +8,7 @@ const yellow = "#dddd00";
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-const gapLength = 10;
+const fullWidth = document.body.clientWidth;
 
 var size = 0;
 
@@ -18,11 +18,16 @@ var currentRow = 0; // the current row which the computer is processing
 var words = []; // all the words that are still valid
 var index = []; // how common every letter is
 
+var searchedLetters = [];
 var letterData = []; // where each letter can be
+var confirmedLocations = [];
+var mustContain = [];
+
+var gameOver = false;
 
 function init() {
-	document.getElementById("grandparentDiv").style.height = `${document.body.clientHeight}px`;
-	size = document.body.clientWidth / 17;
+	document.getElementById("grandparentDiv").style.height = `${document.body.clientHeight * 0.9}px`;
+	size = fullWidth / 17;
 	for (let i = 0; i < 6; i++) {
 		let row = [];
 		for (let j = 0; j < 5; j++)
@@ -34,18 +39,153 @@ function init() {
 
 	for (let i = 0; i < 26; i++)
         index.push([letters.charAt(i), 0]);
-    for (let i = 0; i < words.length; i++) {
-        let word = words[i];
+    for (let i = 0; i < allWords.length; i++) {
+        let word = allWords[i];
         for (let j = 0; j < word.length; j++)
-            index[letters.indexOf(word.charAt(j))][1]++;
+			index[letters.indexOf(word.charAt(j))][1]++;
     }
-    index.sort((o1, o2) => o2[1]-o1[1]);
+	for (let i = 0; i < 5; i++)
+		confirmedLocations.push("");
 
 	for (let i = 0; i < 26; i++)
-		letterData.push(new Letter(letters[i], [0, 1, 2, 3, 4]));
+		letterData.push([letters.charAt(i), new Letter([], [0, 1, 2, 3, 4])]);
+
+	let elements = document.getElementsByClassName("colorButton");
+	for (let i = 0; i < elements.length; i++) {
+		elements[i].style.width = `${fullWidth / 10}px`;
+		elements[i].style.height = `${fullWidth / 20}px`;
+	}
+
+	setText(getLetterSearchWord());
 
 	draw();
+
+	document.getElementById("childInstructionContainer").style.width = `${table.offsetWidth / 1.5 + table.offsetWidth}px`; // TODO
+	document.getElementById("parentButtonContainer").setAttribute("style", `width: ${table.offsetWidth / 1.5}px; height: ${table.offsetHeight}px; top: 100px;`);
+
+	document.getElementById("noneButton").onclick = () => selectorColor = 0;
+	document.getElementById("greenButton").onclick = () => selectorColor = 1;
+	document.getElementById("yellowButton").onclick = () => selectorColor = 2;
+	document.getElementById("makingComplete").onclick = () => processData();
 }
+
+function processData() {
+	if (gameOver)
+		return;
+
+	for (let i = 0; i < 5; i++) {
+		for (let j = 0; j < 5; j++) {
+			if (board[currentRow][i].letter == board[currentRow][j].letter) {
+				if (board[currentRow][i].color == 1 && board[currentRow][j].color == 0)
+					board[currentRow][j].color = 2;
+				else if (board[currentRow][i].color == 0 && board[currentRow][j].color == 1)
+					board[currentRow][i].color = 2;
+			}
+		}
+	}
+
+	console.log(board[currentRow]);
+
+	let correct = true;
+	for (let i = 0; i < 5; i++) {
+		let current = board[currentRow][i];
+		let letterLocation = letters.indexOf(current.letter);
+		searchedLetters.push(current.letter);
+		switch (current.color) {
+			case 0:
+				correct = false;
+				letterData[letterLocation][1].possibleLocation = [];
+				break;
+			case 1:
+				confirmedLocations[i] = current.letter;
+				letterData[letterLocation][1].confirmedLocation.push(i);
+				mustContain.push(current.letter);
+				break;
+			case 2:
+				correct = false;
+				letterData[letterLocation][1].possibleLocation.splice(i, 1);
+				mustContain.push(current.letter);
+				break;
+		}
+	}
+
+	if (correct) {
+		alert("Yay!");
+		gameOver = true;
+		return;
+	}
+
+	currentRow++;
+	selectorColor = 0;
+
+	if (currentRow <= 1)
+		setText(getLetterSearchWord());
+	else {
+		let solve = getSolve();
+		console.log(solve);
+		if (solve == undefined)
+			setText(getLetterSearchWord());
+		else
+			setText(solve);
+	}
+}
+
+function getLetterSearchWord() {
+	let bestCount = 0;
+	let bestWord = "";
+
+	for (let i = 0; i < allWords.length; i++) {
+		let word = allWords[i];
+		let alreadyCounted = [];
+		let count = 0;
+		for (let j = 0; j < word.length; j++) {
+			if (alreadyCounted.indexOf(word[j]) != -1 || searchedLetters.indexOf(word[j]) != -1)
+				continue;
+			if (letterData[letters.indexOf(word[j])][1].possibleLocation.length == 0)
+			continue;
+			alreadyCounted.push(word[j]);
+			count += index[letters.indexOf(word[j])][1];
+		}
+		if (count > bestCount) {
+			bestCount = count;
+			bestWord = word;
+		}
+	}
+
+	return bestWord;
+}
+function getSolve() {
+	let validWords = [];
+	for (let i = 0; i < words.length; i++) {
+		let word = words[i];
+		let valid = true;
+		for (let j = 0; j < word.length; j++) {
+			let letter = word[j];
+			let letterLocation = letters.indexOf(letter);
+			if (letterData[letterLocation][1].possibleLocation.indexOf(j) == -1)
+				valid = false;
+			if (confirmedLocations[j] != "" && confirmedLocations[j] != letter)
+				valid = false;
+			for (let k = 0; k < mustContain.length; k++) {
+				if (word.indexOf(mustContain[k]) == -1) {
+					valid = false;
+					break;
+				}
+			}
+			if (!valid)
+				break;
+		}
+		if (valid)
+			validWords.push(word);
+	}
+
+	words = validWords;
+
+	if (validWords.length <= 3)
+		return validWords[0];
+	return undefined;
+}
+
 function draw() {
 	var list = document.getElementsByClassName("tableRow");
 	for (let i = list.length - 1; i >= 0; i--) {
@@ -76,28 +216,17 @@ function draw() {
 		}
 		table.append(row);
 	}
-
-	document.getElementById("parentButtonContainer").setAttribute("style", `width: ${table.offsetWidth / 1.5}px; height: ${table.offsetHeight}px; top: 100px;`);
-
-	document.getElementById("noneButton").onclick = () => selectorColor = 0;
-	document.getElementById("greenButton").onclick = () => selectorColor = 1;
-	document.getElementById("yellowButton").onclick = () => selectorColor = 2;
-	document.getElementById("makingComplete").onclick = () => {
-		currentRow++;
-	};
 }
 
 function onCellClick(x, y) {
-	if (x != currentRow)
+	if (x != currentRow || gameOver)
 		return;	
-	changeColor(x, y);
-}
-function changeColor(x, y) {
 	board[x][y].color = selectorColor;
 	draw();
 }
 
 function setText(text) {
+	console.log(text);
 	for (let i = 0; i < 5; i++)
 		board[currentRow][i].letter = text.charAt(i);
 	draw();
@@ -110,8 +239,8 @@ class Cell {
 	}
 }
 class Letter {
-	constructor(letter, location) {
-		this.letter = letter;
-		this.location = location;
+	constructor(confirmedLocation, possibleLocation) {
+		this.confirmedLocation = confirmedLocation;
+		this.possibleLocation = possibleLocation;
 	}
 }
