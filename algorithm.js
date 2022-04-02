@@ -26,12 +26,14 @@ function processData() {
 			case 1:
 				confirmedLocations[i] = current.letter;
 				letterData[letterLocation][1].confirmedLocation.push(i);
-				mustContain.push(current.letter);
+				if (mustContain.indexOf(current.letter) == -1)
+					mustContain.push(current.letter);
 				break;
 			case 2:
 				correct = false;
 				letterData[letterLocation][1].possibleLocation.splice(i, 1);
-				mustContain.push(current.letter);
+				if (mustContain.indexOf(current.letter) == -1)
+					mustContain.push(current.letter);
 				break;
 		}
 	}
@@ -95,10 +97,13 @@ function getSolve() {
 		for (let j = 0; j < word.length; j++) {
 			let letter = word[j];
 			let letterLocation = letters.indexOf(letter);
-			if (letterData[letterLocation][1].possibleLocation.indexOf(j) == -1)
+			if (letterData[letterLocation][1].possibleLocation.indexOf(j) == -1) {
 				valid = false;
-			if (confirmedLocations[j] != "" && confirmedLocations[j] != letter)
+			}
+			if (confirmedLocations[j] != "" && confirmedLocations[j] != letter) {
+				
 				valid = false;
+			}
 			for (let k = 0; k < mustContain.length; k++) {
 				if (word.indexOf(mustContain[k]) == -1) {
 					valid = false;
