@@ -23,11 +23,23 @@ var letterData = []; // where each letter can be
 var confirmedLocations = [];
 var mustContain = [];
 
-var gameOver = false;
+var gameOver = true;
 
 function init() {
 	document.getElementById("grandparentDiv").style.height = `${document.body.clientHeight * 0.9}px`;
 	size = pageSize / 17;
+
+	selectorColor = 0;
+	board = [];
+	currentRow = 0;
+	words = [];
+	index = [];
+	searchedLetters = [];
+	letterData = [];
+	confirmedLocations = [];
+	mustContain = [];
+	gameOver = false;
+
 	for (let i = 0; i < 6; i++) {
 		let row = [];
 		for (let j = 0; j < 5; j++)
@@ -56,17 +68,24 @@ function init() {
 		elements[i].style.height = `${pageSize / 20}px`;
 	}
 
-	setText(getLetterSearchWord());
-
 	draw();
 
-	document.getElementById("childInstructionContainer").style.width = `${table.offsetWidth / 1.5 + table.offsetWidth}px`; // TODO
+	document.getElementById("childInstructionContainer").style.width = `${table.offsetWidth / 1.5 + table.offsetWidth}px`;
 	document.getElementById("parentButtonContainer").setAttribute("style", `width: ${table.offsetWidth / 1.5}px; height: ${table.offsetHeight}px; top: 100px;`);
 
 	document.getElementById("noneButton").onclick = () => selectorColor = 0;
 	document.getElementById("greenButton").onclick = () => selectorColor = 1;
 	document.getElementById("yellowButton").onclick = () => selectorColor = 2;
-	document.getElementById("makingComplete").onclick = () => processData();
+	document.getElementById("markingComplete").onclick = () => processData();
+
+	const start = document.getElementById("start");	
+	start.onclick = () => {
+		start.fontSize = "auto";
+		start.fontColor = "black";
+		start.innerHTML = "Restart";
+		init();
+		setText(getLetterSearchWord());
+	};
 }
 
 function draw() {
