@@ -13,8 +13,6 @@ function processData() {
 		}
 	}
 
-	console.log(board[currentRow]);
-
 	let correct = true;
 	for (let i = 0; i < 5; i++) {
 		let current = board[currentRow][i];
@@ -56,12 +54,13 @@ function processData() {
 		setText(getLetterSearchWord());
 	else {
 		let solve = getSolve();
-		console.log(solve);
 		if (solve == undefined)
 			setText(getLetterSearchWord());
 		else
 			setText(solve);
 	}
+
+	console.log(words);
 }
 
 function getLetterSearchWord() {
