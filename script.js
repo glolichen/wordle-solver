@@ -8,7 +8,7 @@ const yellow = "#dddd00";
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-const fullWidth = document.body.clientWidth;
+const pageSize = Math.max(document.body.clientWidth, document.body.clientHeight);
 
 var size = 0;
 
@@ -27,7 +27,7 @@ var gameOver = false;
 
 function init() {
 	document.getElementById("grandparentDiv").style.height = `${document.body.clientHeight * 0.9}px`;
-	size = fullWidth / 17;
+	size = pageSize / 17;
 	for (let i = 0; i < 6; i++) {
 		let row = [];
 		for (let j = 0; j < 5; j++)
@@ -52,8 +52,8 @@ function init() {
 
 	let elements = document.getElementsByClassName("colorButton");
 	for (let i = 0; i < elements.length; i++) {
-		elements[i].style.width = `${fullWidth / 10}px`;
-		elements[i].style.height = `${fullWidth / 20}px`;
+		elements[i].style.width = `${pageSize / 10}px`;
+		elements[i].style.height = `${pageSize / 20}px`;
 	}
 
 	setText(getLetterSearchWord());
