@@ -38,7 +38,6 @@ function init() {
 	letterData = [];
 	confirmedLocations = [];
 	mustContain = [];
-	gameOver = false;
 
 	for (let i = 0; i < 6; i++) {
 		let row = [];
@@ -80,6 +79,12 @@ function init() {
 
 	const start = document.getElementById("start");	
 	start.onclick = () => {
+		let confirmed = true;
+		if (!gameOver)
+			confirmed = confirm("Are you sure you want to restart?");
+		if (!confirmed)
+			return;
+		gameOver = false;
 		start.fontSize = "auto";
 		start.fontColor = "black";
 		start.innerHTML = "Restart";

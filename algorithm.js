@@ -43,6 +43,11 @@ function processData() {
 		gameOver = true;
 		return;
 	}
+	if (currentRow == 5) {
+		alert("The computer lost :(");
+		gameOver = true;
+		return;
+	}
 
 	currentRow++;
 	selectorColor = 0;
