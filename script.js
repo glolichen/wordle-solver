@@ -133,7 +133,6 @@ function onCellClick(x, y) {
 }
 
 function setText(text) {
-	console.log(text);
 	for (let i = 0; i < 5; i++)
 		board[currentRow][i].letter = text.charAt(i);
 	draw();
