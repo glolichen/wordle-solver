@@ -1,7 +1,5 @@
 # Wordle Solver
 
-### Website: [https://anonymouscoder999.github.io/wordle-solver/](https://anonymouscoder999.github.io/wordle-solver/)
-
 An algorithm to play and solve wordle
 
 ### Instructions:
