@@ -49,12 +49,12 @@ function init() {
 		words.push(allWords[i]);
 
 	for (let i = 0; i < 26; i++)
-        index.push([letters.charAt(i), 0]);
-    for (let i = 0; i < allWords.length; i++) {
-        let word = allWords[i];
-        for (let j = 0; j < word.length; j++)
+		index.push([letters.charAt(i), 0]);
+	for (let i = 0; i < allWords.length; i++) {
+		let word = allWords[i];
+		for (let j = 0; j < word.length; j++)
 			index[letters.indexOf(word.charAt(j))][1]++;
-    }
+	}
 	for (let i = 0; i < 5; i++)
 		confirmedLocations.push("");
 

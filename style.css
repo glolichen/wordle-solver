@@ -1,71 +1,71 @@
 .parent div {
-    float: left;
+	float: left;
 }
 
 #grandparentDiv {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
 }
 
 #parentDiv {
-    padding-top: 2%;
-    padding-bottom: 2%;
-    padding-left: 5%;
-    padding-right: 0%;
-    background-color: #ffffff;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	padding-left: 5%;
+	padding-right: 0%;
+	background-color: #ffffff;
 }
 
 #parentButtonContainer {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
 }
 
 #childButtonContainer {
-    text-align: center;
-    justify-content: center; 
-    align-items:center;
-    width: 50%;
-    height: auto;
+	text-align: center;
+	justify-content: center; 
+	align-items:center;
+	width: 50%;
+	height: auto;
 }
 
 #noneButton {
-    background-color: #e9e9ed;
+	background-color: #e9e9ed;
 }
 #greenButton {
-    background-color: #99cc00;
+	background-color: #99cc00;
 }
 #yellowButton {
-    background-color: #dddd00;
+	background-color: #dddd00;
 }
 
 #parentInstructionContainer {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    text-align: center;
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	text-align: center;
 }
 #childInstructionContainer {
-    padding-top: 1%;
-    padding-bottom: 1%;
-    padding-left: 2.5%;
-    padding-right: 2.5%;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    background-color: #ffffff;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	padding-left: 2.5%;
+	padding-right: 2.5%;
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	background-color: #ffffff;
 }
 
 p {
-    border: 2px black;
+	border: 2px black;
 }
 
 body, html {
-    background-color: #333333;
-    height: 100%;
+	background-color: #333333;
+	height: 100%;
 }
