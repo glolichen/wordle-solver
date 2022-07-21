@@ -30,7 +30,6 @@ function processData() {
 					mustContain.push(current.letter);
 				break;
 			case 2:
-				console.log(`${current.letter}${i} here`);
 				correct = false;
 				letterData[letterLocation][1].possibleLocation.splice(letterData[letterLocation][1].possibleLocation.indexOf(i), 1);
 				if (mustContain.indexOf(current.letter) == -1)
